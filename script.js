@@ -1,4 +1,4 @@
-function sendMessage() {
+async function sendMessage() {
   let input = document.getElementById("userInput").value;
   if (input.trim() === "") return;
 
@@ -10,13 +10,32 @@ function sendMessage() {
   userMsg.textContent = "You: " + input;
   chatbox.appendChild(userMsg);
 
-  // Placeholder AI response (we'll connect GPT later!)
-  let aiMsg = document.createElement("div");
-  aiMsg.className = "ai";
-  aiMsg.textContent = "AI: Thanks for sharing. I’ll look into this right away.";
-  chatbox.appendChild(aiMsg);
-
-  // Clear input
+  // Clear input field
   document.getElementById("userInput").value = "";
   chatbox.scrollTop = chatbox.scrollHeight;
+
+  try {
+    // Send message to your Render backend
+    let response = await fetch("https://ai-chat-backend-ygxl.onrender.com/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: input })
+    });
+
+    let data = await response.json();
+
+    // Add AI message
+    let aiMsg = document.createElement("div");
+    aiMsg.className = "ai";
+    aiMsg.textContent = "AI: " + data.reply;
+    chatbox.appendChild(aiMsg);
+
+    chatbox.scrollTop = chatbox.scrollHeight;
+  } catch (error) {
+    console.error("Error:", error);
+    let errorMsg = document.createElement("div");
+    errorMsg.className = "ai";
+    errorMsg.textContent = "AI: Sorry, something went wrong.";
+    chatbox.appendChild(errorMsg);
+  }
 }

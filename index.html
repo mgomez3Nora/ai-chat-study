@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AI Interaction Study</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Support Chat</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -38,6 +39,8 @@
       padding: 12px;
       overflow-y: auto;
       background: #f9f9f9;
+      min-height: 300px;
+      max-height: 400px;
     }
 
     .message {
@@ -47,6 +50,16 @@
       max-width: 75%;
       clear: both;
       line-height: 1.4;
+      opacity: 0;               /* for fade-in */
+      transform: translateY(10px); /* for smooth slide */
+      animation: fadeIn 0.3s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .user {
@@ -68,6 +81,9 @@
       color: #888;
       margin: 10px 0;
       clear: both;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.3s forwards;
     }
 
     .chat-input {

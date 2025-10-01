@@ -1,4 +1,4 @@
-// Generate a random session ID for transcripts later (optional)
+// Generate a random session ID for transcripts
 const sessionId = "session-" + Math.random().toString(36).substring(2, 15);
 
 async function sendMessage() {
@@ -9,7 +9,7 @@ async function sendMessage() {
 
   // Add user message
   let userMsg = document.createElement("div");
-  userMsg.className = "user";
+  userMsg.className = "user message";
   userMsg.textContent = "You: " + input;
   chatbox.appendChild(userMsg);
 
@@ -29,7 +29,7 @@ async function sendMessage() {
 
     // Add AI message
     let aiMsg = document.createElement("div");
-    aiMsg.className = "ai";
+    aiMsg.className = "ai message";
     aiMsg.textContent = "AI: " + data.reply;
     chatbox.appendChild(aiMsg);
 
@@ -37,7 +37,7 @@ async function sendMessage() {
   } catch (error) {
     console.error("Error:", error);
     let errorMsg = document.createElement("div");
-    errorMsg.className = "ai";
+    errorMsg.className = "ai message";
     errorMsg.textContent = "AI: Sorry, something went wrong.";
     chatbox.appendChild(errorMsg);
   }
@@ -67,13 +67,13 @@ async function endChat() {
 
     let chatbox = document.getElementById("chatbox");
     let endMsg = document.createElement("div");
-    endMsg.className = "system";
+    endMsg.className = "system message";
     endMsg.textContent = "System: " + data.message;
     chatbox.appendChild(endMsg);
 
     chatbox.scrollTop = chatbox.scrollHeight;
 
-    // ✅ Redirect to Google after 2 seconds
+    // ✅ Redirect after 2 seconds
     setTimeout(() => {
       window.location.href = "https://www.google.com";
     }, 2000);
@@ -82,3 +82,12 @@ async function endChat() {
     console.error("Error ending chat:", error);
   }
 }
+
+// Auto-greeting when page loads
+window.onload = function() {
+  let chatbox = document.getElementById("chatbox");
+  let aiMsg = document.createElement("div");
+  aiMsg.className = "ai message";
+  aiMsg.textContent = "AI: Hi! Thanks for contacting support. How can I help you today?";
+  chatbox.appendChild(aiMsg);
+};

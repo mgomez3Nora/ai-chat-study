@@ -17,8 +17,9 @@
     <div class="ai">AI: Hi! I’m your virtual assistant. I see your package was marked as delivered. Let’s figure this out together. Can you confirm your delivery address for me?</div>
   </div>
   <div id="inputArea">
-    <input type="text" id="userInput" placeholder="Type your response here..." size="40"/>
+    <input type="text" id="userInput" placeholder="Type your response here..." onkeydown="handleKey(event)" size="40"/>
     <button onclick="sendMessage()">Send</button>
+    <button onclick="endChat()">End Chat</button>
   </div>
 
   <script src="script.js"></script>

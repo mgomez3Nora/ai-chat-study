@@ -1,29 +1,28 @@
 // Generate a random session ID
 const sessionId = "session-" + Math.random().toString(36).substring(2, 15);
 
+function addMessage(text, role) {
+  let chatbox = document.getElementById("chatbox");
+  let msg = document.createElement("div");
+  msg.className = `message ${role}`;
+  msg.textContent = text;
+  chatbox.appendChild(msg);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
 async function sendMessage() {
   let input = document.getElementById("userInput").value;
   if (input.trim() === "") return;
 
-  let chatbox = document.getElementById("chatbox");
-
-  // Add user message
-  let userMsg = document.createElement("div");
-  userMsg.className = "message user";
-  userMsg.textContent = input;
-  chatbox.appendChild(userMsg);
-
-  // Clear input field
+  addMessage(input, "user");
   document.getElementById("userInput").value = "";
-  chatbox.scrollTop = chatbox.scrollHeight;
 
-  // Add typing indicator
+  // Typing indicator
   let typingIndicator = document.createElement("div");
   typingIndicator.className = "typing";
   typingIndicator.id = "typingIndicator";
   typingIndicator.textContent = "AI is typing...";
-  chatbox.appendChild(typingIndicator);
-  chatbox.scrollTop = chatbox.scrollHeight;
+  document.getElementById("chatbox").appendChild(typingIndicator);
 
   try {
     let response = await fetch("https://ai-chat-backend-ygxl.onrender.com/chat", {
@@ -37,29 +36,16 @@ async function sendMessage() {
     // Remove typing indicator
     typingIndicator.remove();
 
-    // Add AI message
-    let aiMsg = document.createElement("div");
-    aiMsg.className = "message ai";
-    aiMsg.textContent = data.reply;
-    chatbox.appendChild(aiMsg);
-
-    chatbox.scrollTop = chatbox.scrollHeight;
+    addMessage(data.reply, "ai");
   } catch (error) {
     console.error("Error:", error);
-
-    // Remove typing indicator if still present
     if (document.getElementById("typingIndicator")) {
       document.getElementById("typingIndicator").remove();
     }
-
-    let errorMsg = document.createElement("div");
-    errorMsg.className = "message ai";
-    errorMsg.textContent = "Sorry, something went wrong.";
-    chatbox.appendChild(errorMsg);
+    addMessage("Sorry, something went wrong.", "ai");
   }
 }
 
-// Handle Enter key
 function handleKey(event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -67,7 +53,6 @@ function handleKey(event) {
   }
 }
 
-// End chat
 async function endChat() {
   try {
     let response = await fetch("https://ai-chat-backend-ygxl.onrender.com/end-chat", {
@@ -77,16 +62,9 @@ async function endChat() {
     });
 
     let data = await response.json();
+    addMessage(data.message, "system");
 
-    let chatbox = document.getElementById("chatbox");
-    let endMsg = document.createElement("div");
-    endMsg.className = "system";
-    endMsg.textContent = data.message;
-    chatbox.appendChild(endMsg);
-
-    chatbox.scrollTop = chatbox.scrollHeight;
-
-    // Redirect after short delay
+    // Redirect after 2 seconds
     setTimeout(() => {
       window.location.href = "https://www.google.com";
     }, 2000);
@@ -95,11 +73,7 @@ async function endChat() {
   }
 }
 
-// Auto-greeting on page load
-window.onload = function() {
-  let chatbox = document.getElementById("chatbox");
-  let aiMsg = document.createElement("div");
-  aiMsg.className = "message ai";
-  aiMsg.textContent = "Hi! Thanks for contacting support. How can I help you today?";
-  chatbox.appendChild(aiMsg);
-};
+// Auto-greeting after DOM loads
+document.addEventListener("DOMContentLoaded", () => {
+  addMessage("Hi! Thanks for contacting support. How can I help you today?", "ai");
+});

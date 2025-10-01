@@ -3,6 +3,10 @@ const sessionId = "session-" + Math.random().toString(36).substring(2, 15);
 
 function addMessage(text, role) {
   let chatbox = document.getElementById("chatbox");
+  if (!chatbox) {
+    console.error("Chatbox not found!");
+    return;
+  }
   let msg = document.createElement("div");
   msg.className = `message ${role}`;
   msg.textContent = text;
@@ -73,7 +77,8 @@ async function endChat() {
   }
 }
 
-// Auto-greeting after DOM loads
-document.addEventListener("DOMContentLoaded", () => {
+// ✅ Auto-greeting guaranteed
+window.onload = function() {
+  console.log("Window loaded, adding greeting...");
   addMessage("Hi! Thanks for contacting support. How can I help you today?", "ai");
-});
+};

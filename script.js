@@ -72,6 +72,12 @@ async function endChat() {
     chatbox.appendChild(endMsg);
 
     chatbox.scrollTop = chatbox.scrollHeight;
+
+    // ✅ Redirect to Google after 2 seconds
+    setTimeout(() => {
+      window.location.href = "https://www.google.com";
+    }, 2000);
+
   } catch (error) {
     console.error("Error ending chat:", error);
   }

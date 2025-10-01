@@ -2,27 +2,121 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AI Study Chat</title>
+  <title>AI Interaction Study</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    #chatbox { border: 1px solid #ccc; padding: 20px; width: 400px; height: 300px; overflow-y: auto; }
-    .user { color: blue; margin: 5px 0; }
-    .ai { color: green; margin: 5px 0; }
-    #inputArea { margin-top: 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      width: 400px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #0056b3;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .chatbox {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+
+    .message {
+      margin: 8px 0;
+      padding: 10px 14px;
+      border-radius: 18px;
+      max-width: 75%;
+      clear: both;
+      line-height: 1.4;
+    }
+
+    .user {
+      background: #007bff;
+      color: white;
+      float: right;
+      text-align: right;
+    }
+
+    .ai {
+      background: #e5e5e5;
+      color: #333;
+      float: left;
+    }
+
+    .system {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      margin: 10px 0;
+      clear: both;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+      background: #fff;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .chat-input button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .chat-input button:hover {
+      background: #0056b3;
+    }
+
+    .end-btn {
+      background: #dc3545;
+    }
+
+    .end-btn:hover {
+      background: #a71d2a;
+    }
   </style>
 </head>
 <body>
-  <h2>AI Interaction Study</h2>
-  <div id="chatbox">
-    <div class="ai">AI: Hi! I’m your virtual assistant. I see your package was marked as delivered. Let’s figure this out together. Can you confirm your delivery address for me?</div>
+  <div class="chat-container">
+    <div class="chat-header">Customer Support Chat</div>
+    <div id="chatbox" class="chatbox"></div>
+    <div class="chat-input">
+      <input id="userInput" type="text" placeholder="Type your response..." onkeydown="handleKey(event)" />
+      <button onclick="sendMessage()">Send</button>
+      <button class="end-btn" onclick="endChat()">End Chat</button>
+    </div>
   </div>
-  <div id="inputArea">
-    <input type="text" id="userInput" placeholder="Type your response here..." onkeydown="handleKey(event)" size="40"/>
-    <button onclick="sendMessage()">Send</button>
-    <button onclick="endChat()">End Chat</button>
-  </div>
-
   <script src="script.js"></script>
-
 </body>
 </html>

@@ -1,8 +1,8 @@
 // ✅ Generate a random session ID
 const sessionId = "session-" + Math.random().toString(36).substring(2, 15);
 
-// ✅ Pick a random agent name at the start of the chat
-const agentNames = ["Julie", "Mark", "Customer Care", "Support Rep"];
+// ✅ Pick a random agent name (only human names, no generic titles)
+const agentNames = ["Julie", "Mark", "Emily", "David", "Samantha", "Michael", "Rachel"];
 const randomAgentName = agentNames[Math.floor(Math.random() * agentNames.length)];
 
 function addMessage(text, role) {
@@ -84,6 +84,5 @@ async function endChat() {
 // ✅ Auto-greeting guaranteed
 window.onload = function() {
   console.log("Window loaded, adding greeting...");
-  // Greeting shows the agent’s name
   addMessage(`Hi! Thanks for contacting support. My name is ${randomAgentName}. How can I help you today?`, "ai");
 };

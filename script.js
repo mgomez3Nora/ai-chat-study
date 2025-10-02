@@ -1,5 +1,9 @@
-// Generate a random session ID
+// ✅ Generate a random session ID
 const sessionId = "session-" + Math.random().toString(36).substring(2, 15);
+
+// ✅ Pick a random agent name at the start of the chat
+const agentNames = ["Julie", "Mark", "Customer Care", "Support Rep"];
+const randomAgentName = agentNames[Math.floor(Math.random() * agentNames.length)];
 
 function addMessage(text, role) {
   let chatbox = document.getElementById("chatbox");
@@ -21,11 +25,18 @@ async function sendMessage() {
   addMessage(input, "user");
   document.getElementById("userInput").value = "";
 
-  // Typing indicator
+  // ✅ Typing indicator (randomized: sometimes “AI is typing”, sometimes agent name)
   let typingIndicator = document.createElement("div");
   typingIndicator.className = "typing";
   typingIndicator.id = "typingIndicator";
-  typingIndicator.textContent = "AI is typing...";
+
+  // 50% chance to show AI vs. agent name
+  if (Math.random() < 0.5) {
+    typingIndicator.textContent = "AI is typing...";
+  } else {
+    typingIndicator.textContent = `${randomAgentName} is typing...`;
+  }
+
   document.getElementById("chatbox").appendChild(typingIndicator);
 
   try {
@@ -37,7 +48,7 @@ async function sendMessage() {
 
     let data = await response.json();
 
-    // Remove typing indicator
+    // ✅ Remove typing indicator
     typingIndicator.remove();
 
     addMessage(data.reply, "ai");
@@ -68,7 +79,7 @@ async function endChat() {
     let data = await response.json();
     addMessage(data.message, "system");
 
-    // Redirect after 2 seconds
+    // ✅ Redirect after 2 seconds
     setTimeout(() => {
       window.location.href = "https://www.google.com";
     }, 2000);
@@ -80,5 +91,6 @@ async function endChat() {
 // ✅ Auto-greeting guaranteed
 window.onload = function() {
   console.log("Window loaded, adding greeting...");
-  addMessage("Hi! Thanks for contacting support. How can I help you today?", "ai");
+  // show greeting as the “agent”
+  addMessage(`Hi! Thanks for contacting support. My name is ${randomAgentName}. How can I help you today?`, "ai");
 };

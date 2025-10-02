@@ -25,18 +25,11 @@ async function sendMessage() {
   addMessage(input, "user");
   document.getElementById("userInput").value = "";
 
-  // ✅ Typing indicator (randomized: sometimes “AI is typing”, sometimes agent name)
+  // ✅ Typing indicator (always shows agent name)
   let typingIndicator = document.createElement("div");
   typingIndicator.className = "typing";
   typingIndicator.id = "typingIndicator";
-
-  // 50% chance to show AI vs. agent name
-  if (Math.random() < 0.5) {
-    typingIndicator.textContent = "AI is typing...";
-  } else {
-    typingIndicator.textContent = `${randomAgentName} is typing...`;
-  }
-
+  typingIndicator.textContent = `${randomAgentName} is typing...`;
   document.getElementById("chatbox").appendChild(typingIndicator);
 
   try {
@@ -91,6 +84,6 @@ async function endChat() {
 // ✅ Auto-greeting guaranteed
 window.onload = function() {
   console.log("Window loaded, adding greeting...");
-  // show greeting as the “agent”
+  // Greeting shows the agent’s name
   addMessage(`Hi! Thanks for contacting support. My name is ${randomAgentName}. How can I help you today?`, "ai");
 };
